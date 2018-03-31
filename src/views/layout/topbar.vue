@@ -1,3 +1,11 @@
+<style scoped>
+  @media (max-width: 850px) {
+      .nav-theme-switch {
+        display: none;
+      }
+    }
+</style>
+
 <template>
   <header class="site-topbar">
     <div class="site-topbar__header">
@@ -29,6 +37,10 @@
             </el-dropdown-menu>
           </el-dropdown>
         </el-menu-item>
+
+        <el-menu-item class="site-topbar__avatar nav-theme-switch" index="1-3">
+          <theme-picker></theme-picker>
+        </el-menu-item>
       </el-menu>
     </div>
     <!-- 弹窗, 修改密码 -->
@@ -39,6 +51,7 @@
 <script>
   import UpdatePassword from './update-password'
   import API from '@/api'
+  import ThemePicker from './theme-picker.vue'
   import { mapMutations } from 'vuex'
   export default {
     data () {
@@ -47,7 +60,13 @@
       }
     },
     components: {
+      ThemePicker,
       UpdatePassword
+    },
+    computed: {
+      isComponentPage () {
+        return /^component/.test(this.$route.name)
+      }
     },
     methods: {
       // 切换侧边栏, 水平折叠收起状态
