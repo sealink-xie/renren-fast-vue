@@ -1,13 +1,11 @@
 <template>
-  <aside class="site-sidebar">
+  <aside class="site-sidebar" :class="sidebarClasses">
     <div class="site-sidebar__inner">
       <el-menu
         :default-active="menuNavActive"
         :collapse="$store.state.sidebarCollapse"
-        class="site-sidebar__menu"
-        background-color="#545c64"
-        text-color="#fff"
-        active-text-color="#ffd04b">
+        :collapseTransition="false"
+        class="site-sidebar__menu">
         <el-menu-item index="1-1" @click="$router.push({ name: 'home' })">
           <i class="site-sidebar__menu-icon fa fa-home"></i>
           <span slot="title">首页</span>
@@ -37,6 +35,14 @@
     components: {
       SubMenuNav
     },
+    computed: {
+      sidebarClasses () {
+        let skin = this.$store.state.sidebarLayoutSkin
+        return [
+          !/\S/.test(skin) || skin === 'light' ? '' : `site-sidebar--${skin}`
+        ]
+      }
+    },
     watch: {
       $route: 'routeHandle'
     },
@@ -60,7 +66,7 @@
       },
       // 路由操作
       routeHandle (route) {
-        if (/^\/n\/.*$/.test(route.path)) {
+        if (route.meta && route.meta.isTab) {
           var tab = this.$store.state.contentTabs.filter(item => item.name === route.name)[0]
           // tab不存在, 先添加
           if (isEmpty(tab)) {

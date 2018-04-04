@@ -1,28 +1,26 @@
 <template>
-  <div class="site-content site-content--tabs">
-    <el-tabs
-      v-model="tabActiveName"
-      :closable="$store.state.contentTabs.length > 1"
-      @tab-click="selectedTabHandle"
-      @tab-remove="removeTabHandle">
-        <el-tab-pane
-          v-for="item in $store.state.contentTabs"
-          :key="item.name"
-          :label="item.title"
-          :name="item.name">
-          <el-card :body-style="contentViewHeight(item)">
-            <iframe
-              v-if="item.type === 'iframe'"
-              :src="getNestIframeUrl(item.url)"
-              width="100%" height="100%" frameborder="0" scrolling="yes">
-            </iframe>
-            <keep-alive v-else>
-              <router-view v-if="item.name === tabActiveName"></router-view>
-            </keep-alive>
-          </el-card>
-        </el-tab-pane>
-    </el-tabs>
-  </div>
+  <el-tabs
+    v-model="tabActiveName"
+    :closable="$store.state.contentTabs.length > 1"
+    @tab-click="selectedTabHandle"
+    @tab-remove="removeTabHandle">
+    <el-tab-pane
+      v-for="item in $store.state.contentTabs"
+      :key="item.name"
+      :label="item.title"
+      :name="item.name">
+      <el-card :body-style="contentViewStyles(item)">
+        <iframe
+          v-if="item.type === 'iframe'"
+          :src="getNestIframeUrl(item.url)"
+          width="100%" height="100%" frameborder="0" scrolling="yes">
+        </iframe>
+        <keep-alive v-else>
+          <router-view v-if="item.name === tabActiveName"></router-view>
+        </keep-alive>
+      </el-card>
+    </el-tab-pane>
+  </el-tabs>
 </template>
 
 <script>
@@ -45,7 +43,7 @@
     },
     methods: {
       // tab内容容器显示高度
-      contentViewHeight (tab) {
+      contentViewStyles (tab) {
         var height = this.$store.state.documentClientHeight
         height -= 50 // site-topbar
         height -= 40 // el-tabs__header
@@ -53,7 +51,9 @@
         height -= 15 // el-tabs__content padding-bottom
         height -= 2  // el-card border-top border-bottom
         height += 'px'
-        return tab.type === 'iframe' ? { height } : { minHeight: height }
+        return [
+          tab.type === 'iframe' ? { height } : { minHeight: height }
+        ]
       },
       // 获取iframe嵌套地址
       getNestIframeUrl (url) {
