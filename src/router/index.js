@@ -31,8 +31,10 @@ export default new Router({
         { path: '/schedule', component: _import('schedule/index'), name: 'schedule', desc: '定时任务', meta: { isTab: true } },
         { path: '/config', component: _import('config/index'), name: 'config', desc: '参数管理', meta: { isTab: true } },
         { path: '/oss', component: _import('oss/index'), name: 'oss', desc: '文件上传', meta: { isTab: true } },
-        { path: '/log', component: _import('log/index'), name: 'log', desc: '系统日志', meta: { isTab: true } }
-      ],
+        { path: '/log', component: _import('log/index'), name: 'log', desc: '系统日志', meta: { isTab: true } },
+        { path: '/n/bsproduct', component: _import('bsproduct/index'), name: 'bsproduct', desc: '产品', meta: { isTab: true } },
+        { path: '/n/dept', component: _import('dept/index'), name: 'dept', desc: '部门管理', meta: { isTab: true } },
+        { path: '/n/bsarea', component: _import('bsarea/index'), name: 'bsarea', desc: '地区管理', meta: { isTab: true } }],
       beforeEnter (to, from, next) {
         let token = Vue.cookie.get('token')
         if (!token || !/\S/.test(token)) {

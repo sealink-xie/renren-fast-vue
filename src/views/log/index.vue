@@ -8,7 +8,7 @@
         <el-button @click="getDataList()">查询</el-button>
       </el-form-item>
     </el-form>
-    <el-table
+    <el-table  
       :data="dataList"
       border
       v-loading="dataListLoading"
